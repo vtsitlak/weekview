@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CalendarItem } from '../@interfaces/calendar-item';
 import * as moment from 'moment';
+import { StorageMap } from '@ngx-pwa/local-storage';
+import { Observable } from 'rxjs';
 
 const TITLES = [
   'work meeting', 'call', 'gym', 'doctor', 'Dutch lesson', 'visit', 'dentist', 'wallk the dog', 'supermarket', 'agile training'
@@ -11,7 +13,19 @@ const TITLES = [
 })
 export class CalendarService {
 
-  constructor() { }
+  constructor(private storage: StorageMap) { }
+
+  initCalendarDatabase(): Observable<any> {
+    // generate 30 calendar items and return an observable method to store them into a indexedDb localstorage
+
+    const calendarItems: CalendarItem[] = [];
+    for (let i = 0; i <= 30; i++) {
+      const calendarItem = this.generateCalendarItem();
+      calendarItems.push(calendarItem);
+    }
+
+    return this.storage.set('calendar', calendarItems);
+  }
 
   private generateCalendarItem(): CalendarItem {
 
