@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CalendarService } from './@services/calendar.service';
-import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'weekview';
 
-  constructor(private calendarService: CalendarService) { }
-
-  ngOnInit(): void {
-    this.calendarService.initCalendarDatabase().subscribe();
+  constructor(private calendarService: CalendarService) {
+    // init db with current week
+    const week = 0;
+    const currentWeekCalendar = this.calendarService.generateWeekCalendar(week);
+    this.calendarService.setCalendarWeek(week.toString(), currentWeekCalendar).subscribe();
   }
 }
