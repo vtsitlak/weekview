@@ -1,4 +1,4 @@
-import { WeekCalendar } from "../@interfaces/week-calendar";
+import { WeekCalendar } from '../@interfaces/week-calendar';
 
 export const WEEK_CALENDAR_MOCK: WeekCalendar = {
   week: '0',
