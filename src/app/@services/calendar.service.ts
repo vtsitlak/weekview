@@ -32,7 +32,7 @@ export class CalendarService {
 
   generateWeekCalendar(weekNr: number): WeekCalendar {
 
-    // generate and return 0 to 3 random calendar items per day for a week
+    // generate and return 1 to 3 random calendar items per day for a week
     const weekCalendarItems: CalendarItem[][] = [];
     let date = moment();
 
@@ -47,7 +47,7 @@ export class CalendarService {
       let dateOfWeek = date.clone();
       dateOfWeek = dateOfWeek.add(i, 'd');
       const dayCalendarItems: CalendarItem[] = [];
-      const nrOfItems = Math.floor(Math.random() * 4);
+      const nrOfItems = Math.floor(Math.random() * 3) + 1;
       // handle the hours to ensure no overlaps
       let hour = (Math.floor(Math.random() * 3) + 5);
 
@@ -60,7 +60,7 @@ export class CalendarService {
 
         const calendarItem: CalendarItem = {
           title: TITLES[Math.floor(Math.random() * 10)],
-          date: dateOfItem.format('DD-MM-YYYY hh:mm'),
+          date: dateOfItem.format('DD-MM-YYYY HH:mm'),
           // duration 1 or 2 hours
           duration: (Math.floor(Math.random() * 2) + 1).toString(),
         };

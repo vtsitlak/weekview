@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 
 const MATERIAL_MODULES: any[] = [
@@ -20,6 +21,7 @@ const MATERIAL_MODULES: any[] = [
   MatListModule,
   MatDividerModule,
   MatTooltipModule,
+  MatGridListModule,
 ];
 
 @NgModule({
