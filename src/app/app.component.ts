@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CalendarService } from './@services/calendar.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'weekview';
+  init = false;
+
+  constructor(private calendarService: CalendarService) {
+    // init db with current week
+    const week = 0;
+    const currentWeekCalendar = this.calendarService.generateWeekCalendar(week);
+    this.calendarService.setCalendarWeek(week.toString(), currentWeekCalendar).subscribe(() => this.init = true);
+  }
 }

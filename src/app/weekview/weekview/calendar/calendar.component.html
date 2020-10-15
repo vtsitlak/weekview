@@ -1,0 +1,9 @@
+<mat-grid-list cols="8" rowHeight="2:1" [gutterSize]="0">
+  <mat-grid-tile *ngFor="let label of labels" [colspan]="1" [rowspan]="1" class="is-label-top">
+    {{label}}
+  </mat-grid-tile>
+  <mat-grid-tile *ngFor="let item of items; let i = index;" [colspan]="1" [rowspan]="1"
+    [ngClass]="{'is-event': (i % 8 !== 0) && isEvent(item, i), 'is-label-side' : (i % 8 === 0), 'is-duration-2': (i % 8 !== 0) && isDuration2(i) }">
+    {{ (i % 8 === 0) ? item : item.title }}
+  </mat-grid-tile>
+</mat-grid-list>

@@ -1,0 +1,6 @@
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="loading"></mat-progress-bar>
+<div *ngIf="!loading">
+  <app-week-selector [fromDate]="weeksCalendar[selectedWeekIndex].fromDate" [toDate]="weeksCalendar[selectedWeekIndex].toDate" (weekNavigate)="weekNavigate($event)"></app-week-selector>
+  <mat-divider></mat-divider>
+  <app-calendar [weekCalendar]="weeksCalendar[selectedWeekIndex]"></app-calendar>
+</div>
