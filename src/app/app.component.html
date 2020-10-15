@@ -14,6 +14,6 @@
     {{title}}
   </span>
 </mat-toolbar>
-<div class="main-content">
+<div class="main-content" *ngIf="init">
   <router-outlet></router-outlet>
 </div>

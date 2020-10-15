@@ -4,10 +4,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 const MATERIAL_MODULES: any[] = [
@@ -15,9 +16,10 @@ const MATERIAL_MODULES: any[] = [
   MatMenuModule,
   MatToolbarModule,
   MatButtonModule,
-  MatProgressSpinnerModule,
+  MatProgressBarModule,
   MatListModule,
   MatDividerModule,
+  MatTooltipModule,
 ];
 
 @NgModule({
