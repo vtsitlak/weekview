@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import * as moment from 'moment';
 import { WeekCalendar } from '../../../@interfaces/week-calendar';
+import { CalendarItem } from '../../../@interfaces/calendar-item';
+import { title } from 'process';
 
 @Component({
   selector: 'app-calendar',
@@ -15,7 +17,7 @@ export class CalendarComponent implements OnChanges {
   }).format('HH:mm'));
 
   labels: string[];
-  titles: any[];
+  items: any[];
 
   @Input() weekCalendar: WeekCalendar;
 
@@ -23,10 +25,10 @@ export class CalendarComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.labels = [];
-    this.titles = [];
+    this.items = [];
 
     this.setLabels();
-    this.setTitles();
+    this.setItems();
   }
 
   setLabels(): void {
@@ -34,29 +36,39 @@ export class CalendarComponent implements OnChanges {
     this.weekCalendar.calendarItems.forEach(calendarItem => this.labels.push(calendarItem[0].date.substring(0, 10)));
   }
 
-  setTitles(): void {
+  setItems(): void {
     let indexHours = 0;
     let indexDay = 0;
 
-    const titles = [...Array(24 * 8).keys()].map(key => (key % 8 === 0) ? '' : {});
+    const items = [...Array(24 * 8).keys()].map(key => (key % 8 === 0) ? '' : {});
 
     this.hours.forEach(hour => {
-      titles[indexHours * 8] = hour;
+      items[indexHours * 8] = hour;
       indexHours++;
     });
 
     this.weekCalendar.calendarItems.forEach(calendarItems => {
-      calendarItems.forEach(item => {
-        const indexOnTitles = titles.map(title => title).indexOf(item.date.substring(11));
+      calendarItems.forEach(calendarItem => {
+        const indexOnTitles = items.map(i => i).indexOf(calendarItem.date.substring(11));
 
         if (indexOnTitles > -1) {
-          titles[indexOnTitles + indexDay + 1] = item;
+          items[indexOnTitles + indexDay + 1] = calendarItem;
         }
       });
       indexDay++;
     });
 
-    this.titles = [...titles];
+    this.items = [...items];
+  }
+
+  isEvent(item: any, index: number): boolean {
+
+    return (item && item.title) || this.isDuration2(index);
+  }
+
+  isDuration2(index: number): boolean {
+
+    return (index > 8 && this.items[index - 8] && this.items[index - 8].duration === '2');
   }
 
 }
