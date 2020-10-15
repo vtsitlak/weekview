@@ -31,11 +31,13 @@ export class CalendarComponent implements OnChanges {
     this.setItems();
   }
 
+  // set the labels
   setLabels(): void {
     this.labels.push('Hour / Date');
     this.weekCalendar.calendarItems.forEach(calendarItem => this.labels.push(calendarItem[0].date.substring(0, 10)));
   }
 
+  // get the values to display
   setItems(): void {
     let indexHours = 0;
     let indexDay = 0;
@@ -61,11 +63,13 @@ export class CalendarComponent implements OnChanges {
     this.items = [...items];
   }
 
+  // return if on that hour there is an event
   isEvent(item: any, index: number): boolean {
 
     return (item && item.title) || this.isDuration2(index);
   }
 
+  // return if on the previous hour was a 2 hours event
   isDuration2(index: number): boolean {
 
     return (index > 8 && this.items[index - 8] && this.items[index - 8].duration === '2');
