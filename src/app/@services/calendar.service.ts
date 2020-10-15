@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { WeekCalendar } from '../@interfaces/week-calendar';
 
 const TITLES = [
   'work meeting', 'call', 'gym', 'doctor', 'Dutch lesson', 'visit', 'dentist', 'wallk the dog', 'supermarket', 'agile training'
@@ -16,23 +17,23 @@ export class CalendarService {
 
   constructor(private storage: StorageMap) { }
 
-  setCalendarWeek(week: string, weekCalendar: CalendarItem[][]): Observable<any> {
+  setCalendarWeek(week: string, weekCalendar: WeekCalendar): Observable<any> {
 
     // return an observable method to store a calendar for a week into a indexedDb localstorage
     return this.storage.set(week, weekCalendar);
   }
 
-  getCalendarItems(week: string): Observable<CalendarItem[]> {
+  getWeekCalendar(week: string): Observable<WeekCalendar> {
 
     return this.storage.get(week).pipe(
-      map(calendarItems => calendarItems as CalendarItem[]),
+      map(weekCalendar => weekCalendar as WeekCalendar),
     );
   }
 
-  generateWeekCalendar(weekNr: number): CalendarItem[][] {
+  generateWeekCalendar(weekNr: number): WeekCalendar {
 
     // generate and return 0 to 3 random calendar items per day for a week
-    const weekCalendar: CalendarItem[][] = [];
+    const weekCalendarItems: CalendarItem[][] = [];
     let date = moment();
 
     if (weekNr >= 0) {
@@ -45,7 +46,7 @@ export class CalendarService {
     for (let i = 0; i < 7; i++) {
       let dateOfWeek = date.clone();
       dateOfWeek = dateOfWeek.add(i, 'd');
-      const calendarItems: CalendarItem[] = [];
+      const dayCalendarItems: CalendarItem[] = [];
       const nrOfItems = Math.floor(Math.random() * 4);
 
       for (let y = 0; y < nrOfItems; y++) {
@@ -61,13 +62,18 @@ export class CalendarService {
           // duration 1 or 2 hours
           duration: (Math.floor(Math.random() * 2) + 1).toString(),
         };
-        calendarItems.push(calendarItem);
+        dayCalendarItems.push(calendarItem);
       }
 
-      weekCalendar[i] = calendarItems;
+      weekCalendarItems[i] = dayCalendarItems;
     }
 
-    return weekCalendar;
+    return {
+      week: weekNr.toString(),
+      calendarItems: weekCalendarItems,
+      fromDate: date.format('DD-MM-YYYY'),
+      toDate: date.add(6, 'd').format('DD-MM-YYYY'),
+    };
   }
 
 }
