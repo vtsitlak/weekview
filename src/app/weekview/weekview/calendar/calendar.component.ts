@@ -66,7 +66,7 @@ export class CalendarComponent implements OnChanges {
   // return if on that hour there is an event
   isEvent(item: any, index: number): boolean {
 
-    return (item && item.title) || this.isDuration2(index);
+    return (!!item && !!item.title) || this.isDuration2(index);
   }
 
   // return if on the previous hour was a 2 hours event
