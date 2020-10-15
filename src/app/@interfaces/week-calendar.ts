@@ -1,4 +1,4 @@
-import { CalendarItem } from "./calendar-item";
+import { CalendarItem } from './calendar-item';
 
 export interface WeekCalendar {
   week: string;
