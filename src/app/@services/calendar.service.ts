@@ -48,11 +48,13 @@ export class CalendarService {
       dateOfWeek = dateOfWeek.add(i, 'd');
       const dayCalendarItems: CalendarItem[] = [];
       const nrOfItems = Math.floor(Math.random() * 4);
+      // handle the hours to ensure no overlaps
+      let hour = (Math.floor(Math.random() * 3) + 5);
 
       for (let y = 0; y < nrOfItems; y++) {
         let dateOfItem = dateOfWeek.clone();
 
-        const hour = (Math.floor(Math.random() * 24));
+        hour = hour +  2 + (Math.floor(Math.random() * 3));
 
         dateOfItem = dateOfItem.set('hour', hour).set('minute', 0);
 
