@@ -16,51 +16,58 @@ export class CalendarService {
 
   constructor(private storage: StorageMap) { }
 
-  initCalendarDatabase(): Observable<any> {
-    // generate 30 calendar items and return an observable method to store them into a indexedDb localstorage
+  setCalendarWeek(week: string, weekCalendar: CalendarItem[][]): Observable<any> {
 
-    const calendarItems: CalendarItem[] = [];
-    for (let i = 0; i < 30; i++) {
-      const calendarItem = this.generateCalendarItem();
-      calendarItems.push(calendarItem);
-    }
-
-    return this.storage.set('calendar', calendarItems);
+    // return an observable method to store a calendar for a week into a indexedDb localstorage
+    return this.storage.set(week, weekCalendar);
   }
 
-  getCalendarItems(): Observable<CalendarItem[]> {
+  getCalendarItems(week: string): Observable<CalendarItem[]> {
 
-    return this.storage.get('calendar').pipe(
+    return this.storage.get(week).pipe(
       map(calendarItems => calendarItems as CalendarItem[]),
     );
   }
 
-  private generateCalendarItem(): CalendarItem {
+  generateWeekCalendar(weekNr: number): CalendarItem[][] {
 
-    return {
-      title: TITLES[Math.floor(Math.random() * 10)],
-      date: this.generateCalendarDate(),
-      // duration returns 15 to 120 minutes on steps of 15 minutes
-      duration: 15 * (Math.floor(Math.random() * 8) + 1) + ' minutes',
-    };
-  }
-
-  // return a random date between last, current or next week
-  private generateCalendarDate(): string {
-
+    // generate and return 0 to 3 random calendar items per day for a week
+    const weekCalendar: CalendarItem[][] = [];
     let date = moment();
-    const dayRange = Math.floor(Math.random() * 7);
-    const week = Math.floor(Math.random() * 3);
-    if (week === 0) {
-      date = date.subtract(dayRange, 'd');
-    } else if (week === 1) {
-      date = date.add(dayRange, 'd');
+
+    if (weekNr >= 0) {
+      date = date.add(weekNr, 'week');
     } else {
-      date = date.add(dayRange + 7, 'd');
+      const weekNrAbsolute = weekNr * -1;
+      date = date.subtract(weekNrAbsolute, 'week');
     }
 
-    return date.format('DD-MM-YYYY');
-  }
+    for (let i = 0; i < 7; i++) {
+      let dateOfWeek = date.clone();
+      dateOfWeek = dateOfWeek.add(i, 'd');
+      const calendarItems: CalendarItem[] = [];
+      const nrOfItems = Math.floor(Math.random() * 4);
 
+      for (let y = 0; y < nrOfItems; y++) {
+        let dateOfItem = dateOfWeek.clone();
+
+        const hour = (Math.floor(Math.random() * 24));
+
+        dateOfItem = dateOfItem.set('hour', hour).set('minute', 0);
+
+        const calendarItem: CalendarItem = {
+          title: TITLES[Math.floor(Math.random() * 10)],
+          date: dateOfItem.format('DD-MM-YYYY hh:mm'),
+          // duration 1 or 2 hours
+          duration: (Math.floor(Math.random() * 2) + 1).toString(),
+        };
+        calendarItems.push(calendarItem);
+      }
+
+      weekCalendar[i] = calendarItems;
+    }
+
+    return weekCalendar;
+  }
 
 }
